@@ -4,22 +4,6 @@
 
 import matplotlib.pyplot as plt
 
-def verificaEscolha():
-    choice = int(input("Qual será o método de resolução da EDO?\n* Euler (1)\n* RK4 (2)\n-> "))
-    while(choice != int(1) and choice != int(2)):
-        choice = int(input("Seleção inválida por favor tente novamente:\n* Euler (1)\n* RK4 (2)\n-> "))
-    return choice
-
-def verificaFuncao():
-    pass
-
-def verificaCI():
-    print("Informe as condições iniciais:")
-    y10 = input("Valor inicial de y1 = ")
-    y20 = input("Valor inicial de y2 = ")
-    h = input("Valor de h = ")
-    iters = input("Número de iterações = ")
-
 class Euler():
     def __init__(self, y10, y20, xi, h, iters):
         self.y1i = y10
@@ -185,20 +169,27 @@ def f2(xi, y1i, y2i):
     f = -y1i
     return f
 
+def verificaEscolha():
+    choice = int(input("\nQual será o método de resolução da EDO?\n* Euler (1)\n* RK4 (2)\n-> "))
+    while(choice != int(1) and choice != int(2)):
+        choice = int(input("Seleção inválida por favor tente novamente:\n* Euler (1)\n* RK4 (2)\n-> "))
+    return choice
+
 def main():
-    choice = verificaEscolha()
-    y10 = 1
-    y20 = 1
-    xi = 0
-    h = 0.2
-    iters = 2
+    #y10 = 1
+    #y20 = 1
+    #xi = 0
+    #h = 0.2
+    #iters = 2
     
     print("\nInforme as condições iniciais:")
     y10 = input("Valor inicial de y1 = ")
     y20 = input("Valor inicial de y2 = ")
+    xi = input("Valor inicial de xi = ")
     h = float(input("Valor de h = "))
     iters = int(input("Número de iterações = "))
     
+    choice = verificaEscolha()
     if(choice == 1):
         euler = Euler(y10, y20, xi, h, iters)
         euler.solve()
