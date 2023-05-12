@@ -47,7 +47,7 @@ class Euler():
             xi = i * self.get_h()
             self.xlist.append(xi)
             self.set_xi(xi)
-            print(f"* X{i} = {xi}")
+            print(f"* X{i} = {xi:.2f}")
 
             # Calculando Y1 e Y2
             y1i = self.get_y1i() + self.get_h() *f1(xi, self.get_y1i(), self.get_y2i())
@@ -116,7 +116,7 @@ class RK4():
             xi = i * self.get_h()
             self.xlist.append(xi)
             self.set_xi(xi)
-            print(f"* X{i} = {xi}")
+            print(f"* X{i} = {xi:.2f}")
 
             # Calculando K1, K2, K3 e K4
             k11 = f1(self.get_xi(), self.get_y1i(), self.get_y2i())
