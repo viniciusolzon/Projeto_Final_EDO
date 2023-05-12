@@ -69,7 +69,7 @@ class Euler():
         plt.ylabel('y(x)')
         plt.legend(["y1","y2"])
 
-        plt.title('RK4')
+        plt.title('Euler')
         plt.show()
 
 
@@ -185,7 +185,7 @@ def main():
     print("\nInforme as condições iniciais:")
     y10 = input("Valor inicial de y1 = ")
     y20 = input("Valor inicial de y2 = ")
-    xi = input("Valor inicial de xi = ")
+    xi = input("Valor inicial de x = ")
     h = float(input("Valor de h = "))
     iters = int(input("Número de iterações = "))
     
