@@ -1,5 +1,5 @@
 # Método de Euler e Runge-kutta de quarta ordem para
-# resolver uma PVI para um sistema de duas equações 
+# resolver um PVI para um sistema de duas equações 
 # diferenciais de primeira ordem.
 
 import matplotlib.pyplot as plt
