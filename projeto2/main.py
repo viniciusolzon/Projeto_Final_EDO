@@ -43,11 +43,11 @@ class Euler():
         print("\n* Solução *\n")
         # Solving the problem
         for i in range(self.get_iters()):
-            print(f"Iteração {i}")
-            xi = i * self.get_h()
+            print(f"Iteração {i+1}")
+            xi = (i+1) * self.get_h()
             self.xlist.append(xi)
             self.set_xi(xi)
-            print(f"* X{i} = {xi:.2f}")
+            print(f"* x{i+1} = {xi:.2f}")
 
             # Calculando Y1 e Y2
             y1i = self.get_y1i() + self.get_h() *f1(xi, self.get_y1i(), self.get_y2i())
@@ -55,8 +55,8 @@ class Euler():
             self.y1list.append(y1i)
             self.y2list.append(y2i)
 
-            print(f"* y1{i} = {y1i:.4f}")
-            print(f"* y2{i} = {y2i:.4f}\n")
+            print(f"* y1{i+1} = {y1i:.4f}")
+            print(f"* y2{i+1} = {y2i:.4f}\n")
             self.set_y1i(y1i)
             self.set_y2i(y2i)
 
@@ -112,11 +112,11 @@ class RK4():
         print("\n* Solução *\n")
         # Solving the problem
         for i in range(self.get_iters()):
-            print(f"Iteração {i}")
-            xi = i * self.get_h()
+            print(f"Iteração {i+1}")
+            xi = (i+1) * self.get_h()
             self.xlist.append(xi)
             self.set_xi(xi)
-            print(f"* X{i} = {xi:.2f}")
+            print(f"* x{i+1} = {xi:.2f}")
 
             # Calculando K1, K2, K3 e K4
             k11 = f1(self.get_xi(), self.get_y1i(), self.get_y2i())
@@ -143,8 +143,8 @@ class RK4():
             self.y1list.append(y1i)
             self.y2list.append(y2i)
 
-            print(f"* y1{i} = {y1i:.4f}")
-            print(f"* y2{i} = {y2i:.4f}\n")
+            print(f"* y1{i+1} = {y1i:.4f}")
+            print(f"* y2{i+1} = {y2i:.4f}\n")
             self.set_y1i(y1i)
             self.set_y2i(y2i)
 
