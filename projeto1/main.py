@@ -4,7 +4,7 @@
 
 import matplotlib.pyplot as plt
 
-class Euler():
+class Method():
     def __init__(self, y0, xi, h, iters):
         self.yi = y0
         self.xi = xi
@@ -31,23 +31,27 @@ class Euler():
     def get_iters(self):
         return int(self.iters)
 
+class Euler(Method):
+    def __init__(self, y0, xi, h, iters):
+        Method.__init__(self, y0, xi, h, iters)
+
     def solve(self):
         print("\n* Solução *\n")
         # Solving the problem
         for i in range(self.get_iters()):
             print(f"Iteração {i+1}")
+
+            # Calculando Y1 e Y2
+            yi = self.get_yi() + self.get_h() * f(self.get_xi(), self.get_yi())
+            self.ylist.append(yi)
+            self.set_yi(yi)
+
             xi = (i+1) * self.get_h()
             self.xlist.append(xi)
             self.set_xi(xi)
             print(f"* x{i+1} = {xi:.2f}")
 
-            # Calculando Y1 e Y2
-            yi = self.get_yi() + self.get_h() * f(xi, self.get_yi())
-            self.ylist.append(yi)
-
             print(f"* y{i+1} = {yi:.4f}\n")
-            self.set_yi(yi)
-
 
     def plotGraph(self):
         plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0)
@@ -60,61 +64,39 @@ class Euler():
         plt.show()
 
 
-class RK4():
+class RK4(Method):
     def __init__(self, y0, xi, h, iters):
-        self.yi = y0
-        self.xi = xi
-        self.h = h
-        self.iters = iters
-        self.xlist = []
-        self.ylist = []
-
-    def get_yi(self):
-        return float(self.yi)
-
-    def set_yi(self, yi):
-        self.yi = yi
-
-    def get_xi(self):
-        return float(self.xi)
-
-    def set_xi(self, xi):
-        self.xi = xi
-
-    def get_h(self):
-        return float(self.h)
-
-    def get_iters(self):
-        return int(self.iters)
+        Method.__init__(self, y0, xi, h, iters)
 
     def solve(self):
         print("\n* Solução *\n")
         # Solving the problem
         for i in range(self.get_iters()):
             print(f"Iteração {i+1}")
-            xi = (i+1) * self.get_h()
-            self.xlist.append(xi)
-            self.set_xi(xi)
-            print(f"* x{i+1} = {xi:.2f}")
 
             # Calculando K1, K2, K3 e K4
             k1 = f(self.get_xi(), self.get_yi())
             k2 = f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k1)
             k3 = f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k2)
             k4 = f(self.get_xi() + self.get_h(), self.get_yi() + self.get_h() *k3)
-    
+
+            # Atualizando xi            
+            xi = (i+1) * self.get_h()
+            self.xlist.append(xi)
+            self.set_xi(xi)
+            print(f"* x{i+1} = {xi:.2f}")
+
             print(f"  - k1 = {k1:.4f}")
             print(f"  - K2 = {k2:.4f}")
             print(f"  - K3 = {k3:.4f}")
             print(f"  - K4 = {k4:.4f}")
-                                                        
-            # Calculando Y1 e Y2
+
+            # Calculando y1 e y2
             yi = self.get_yi() + self.get_h()/6 *(k1 + 2*(k2 + k3) + k4)
             self.ylist.append(yi)
 
             print(f"* y{i+1} = {yi:.4f}\n")
             self.set_yi(yi)
-
 
     def plotGraph(self):
         plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0)
@@ -128,7 +110,7 @@ class RK4():
 
 
 def f(xi, yi):
-    f = (-2)*xi*(yi*yi)
+    f = (2*yi)+1
     return f
 
 def verificaEscolha():
@@ -138,10 +120,6 @@ def verificaEscolha():
     return choice
 
 def main():
-    #y0 = 1
-    #xi = 0
-    #h = 0.2
-    #iters = 2
     
     print("\nInforme as condições iniciais:")
     y0 = input("Valor inicial de y = ")
