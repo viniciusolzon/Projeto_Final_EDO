@@ -5,7 +5,8 @@
 import matplotlib.pyplot as plt
 
 class Method():
-    def __init__(self, y0, xi, h, iters):
+    def __init__(self, f, y0, xi, h, iters):
+        self.f = f
         self.yi = y0
         self.xi = xi
         self.h = h
@@ -32,8 +33,8 @@ class Method():
         return int(self.iters)
 
 class Euler(Method):
-    def __init__(self, y0, xi, h, iters):
-        Method.__init__(self, y0, xi, h, iters)
+    def __init__(self, f, y0, xi, h, iters):
+        Method.__init__(self, f, y0, xi, h, iters)
 
     def solve(self):
         print("\n* Solução *\n")
@@ -42,7 +43,7 @@ class Euler(Method):
             print(f"Iteração {i+1}")
 
             # Calculando Y1 e Y2
-            yi = self.get_yi() + self.get_h() * f(self.get_xi(), self.get_yi())
+            yi = self.get_yi() + self.get_h() * self.f(self.get_xi(), self.get_yi())
             self.ylist.append(yi)
             self.set_yi(yi)
 
@@ -65,8 +66,8 @@ class Euler(Method):
 
 
 class RK4(Method):
-    def __init__(self, y0, xi, h, iters):
-        Method.__init__(self, y0, xi, h, iters)
+    def __init__(self, f, y0, xi, h, iters):
+        Method.__init__(self, f, y0, xi, h, iters)
 
     def solve(self):
         print("\n* Solução *\n")
@@ -75,10 +76,10 @@ class RK4(Method):
             print(f"Iteração {i+1}")
 
             # Calculando K1, K2, K3 e K4
-            k1 = f(self.get_xi(), self.get_yi())
-            k2 = f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k1)
-            k3 = f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k2)
-            k4 = f(self.get_xi() + self.get_h(), self.get_yi() + self.get_h() *k3)
+            k1 = self.f(self.get_xi(), self.get_yi())
+            k2 = self.f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k1)
+            k3 = self.f(self.get_xi() + self.get_h()/2, self.get_yi() + self.get_h()/2 * k2)
+            k4 = self.f(self.get_xi() + self.get_h(), self.get_yi() + self.get_h() *k3)
 
             # Atualizando xi            
             xi = (i+1) * self.get_h()
@@ -109,9 +110,9 @@ class RK4(Method):
         plt.show()
 
 
-def f(xi, yi):
-    f = (2*yi)+1
-    return f
+# def f(xi, yi):
+#     f = (2*yi)+1
+#     return f
 
 def verificaEscolha():
     choice = int(input("\nQual será o método de resolução da EDO?\n* Euler (1)\n* RK4 (2)\n-> "))
@@ -120,20 +121,23 @@ def verificaEscolha():
     return choice
 
 def main():
-    
+
     print("\nInforme as condições iniciais:")
-    y0 = input("Valor inicial de y = ")
-    xi = input("Valor inicial de x = ")
+    function = input("Função(xi,yi) = ")
+    yi = float(input("Valor inicial de y = "))
+    xi = float(input("Valor inicial de x = "))
     h = float(input("Valor de h = "))
     iters = int(input("Número de iterações = "))
-    
+
+    f = lambda xi, yi: eval(function)
+
     choice = verificaEscolha()
     if(choice == 1):
-        euler = Euler(y0, xi, h, iters)
+        euler = Euler(f, yi, xi, h, iters)
         euler.solve()
         euler.plotGraph()
     else:
-        rk4 = RK4(y0, xi, h, iters)
+        rk4 = RK4(f, yi, xi, h, iters)
         rk4.solve()
         rk4.plotGraph()
     

@@ -5,7 +5,9 @@
 import matplotlib.pyplot as plt
 
 class Method():
-    def __init__(self, y10, y20, xi, h, iters):
+    def __init__(self, f1, f2, y10, y20, xi, h, iters):
+        self.f1 = f1
+        self.f2 = f2
         self.y1i = y10
         self.y2i = y20
         self.xi = xi
@@ -39,9 +41,9 @@ class Method():
     def get_iters(self):
         return int(self.iters)
 
-class Euler():
-    def __init__(self, y10, y20, xi, h, iters):
-        Method.__init__(self, y10, y20, xi, h, iters)
+class Euler(Method):
+    def __init__(self, f1, f2, y10, y20, xi, h, iters):
+        Method.__init__(self, f1, f2, y10, y20, xi, h, iters)
 
     def solve(self):
         print("\n* Solução *\n")
@@ -50,8 +52,8 @@ class Euler():
             print(f"Iteração {i+1}")
 
             # Calculando y1 e y2
-            y1i = self.get_y1i() + self.get_h() *f1(self.get_xi(), self.get_y1i(), self.get_y2i())
-            y2i = self.get_y2i() + self.get_h() *f2(self.get_xi(), self.get_y1i(), self.get_y2i())
+            y1i = self.get_y1i() + self.get_h() *self.f1(self.get_xi(), self.get_y1i(), self.get_y2i())
+            y2i = self.get_y2i() + self.get_h() *self.f2(self.get_xi(), self.get_y1i(), self.get_y2i())
             self.y1list.append(y1i)
             self.y2list.append(y2i)
             self.set_y1i(y1i)
@@ -78,8 +80,8 @@ class Euler():
 
 
 class RK4(Method):
-    def __init__(self, y10, y20, xi, h, iters):
-        Method.__init__(self, y10, y20, xi, h, iters)
+    def __init__(self, f1, f2, y10, y20, xi, h, iters):
+        Method.__init__(self, f1, f2, y10, y20, xi, h, iters)
 
     def solve(self):
         print("\n* Solução *\n")
@@ -88,14 +90,14 @@ class RK4(Method):
             print(f"Iteração {i+1}")
 
             # Calculando K1, K2, K3 e K4
-            k11 = f1(self.get_xi(), self.get_y1i(), self.get_y2i())
-            k12 = f2(self.get_xi(), self.get_y1i(), self.get_y2i())
-            k21 = f1(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k11, self.get_y2i() + self.get_h()/2 * k12)
-            k22 = f2(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k11, self.get_y2i() + self.get_h()/2 * k12)
-            k31 = f1(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k21, self.get_y2i() + self.get_h()/2 * k22)
-            k32 = f2(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k21, self.get_y2i() + self.get_h()/2 * k22)
-            k41 = f1(self.get_xi() + self.get_h(), self.get_y1i() + self.get_h() *k31, self.get_y2i() +self.get_h() * k32)
-            k42 = f2(self.get_xi() + self.get_h(), self.get_y1i() + self.get_h() *k31, self.get_y2i() +self.get_h() * k32)
+            k11 = self.f1(self.get_xi(), self.get_y1i(), self.get_y2i())
+            k12 = self.f2(self.get_xi(), self.get_y1i(), self.get_y2i())
+            k21 = self.f1(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k11, self.get_y2i() + self.get_h()/2 * k12)
+            k22 = self.f2(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k11, self.get_y2i() + self.get_h()/2 * k12)
+            k31 = self.f1(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k21, self.get_y2i() + self.get_h()/2 * k22)
+            k32 = self.f2(self.get_xi() + self.get_h()/2, self.get_y1i() + self.get_h()/2 * k21, self.get_y2i() + self.get_h()/2 * k22)
+            k41 = self.f1(self.get_xi() + self.get_h(), self.get_y1i() + self.get_h() *k31, self.get_y2i() +self.get_h() * k32)
+            k42 = self.f2(self.get_xi() + self.get_h(), self.get_y1i() + self.get_h() *k31, self.get_y2i() +self.get_h() * k32)
 
             xi = (i+1) * self.get_h()
             self.xlist.append(xi)
@@ -134,13 +136,13 @@ class RK4(Method):
         plt.show()
 
 
-def f1(xi, y1i, y2i):
-    f = 2*y1i*y2i
-    return f
+# def f1(xi, y1i, y2i):
+#     f = 2*y1i*y2i
+#     return f
 
-def f2(xi, y1i, y2i):
-    f = -y1i
-    return f
+# def f2(xi, y1i, y2i):
+#     f = -y1i
+#     return f
 
 def verificaEscolha():
     choice = int(input("\nQual será o método de resolução da EDO?\n* Euler (1)\n* RK4 (2)\n-> "))
@@ -151,19 +153,24 @@ def verificaEscolha():
 def main():
     
     print("\nInforme as condições iniciais:")
-    y10 = input("Valor inicial de y1 = ")
-    y20 = input("Valor inicial de y2 = ")
-    xi = input("Valor inicial de x = ")
+    function1 = input("Função 1 (xi,y1i,y2i) = ")
+    function2 = input("Função 2 (xi,y1i,y2i) = ")
+    y1i = float(input("Valor inicial de y1 = "))
+    y2i = float(input("Valor inicial de y2 = "))
+    xi = float(input("Valor inicial de x = "))
     h = float(input("Valor de h = "))
     iters = int(input("Número de iterações = "))
     
+    f1 = lambda xi, y1i, y2i: eval(function1)
+    f2 = lambda xi, y1i, y2i: eval(function2)
+
     choice = verificaEscolha()
     if(choice == 1):
-        euler = Euler(y10, y20, xi, h, iters)
+        euler = Euler(f1, f2, y1i, y2i, xi, h, iters)
         euler.solve()
         euler.plotGraph()
     else:
-        rk4 = RK4(y10, y20, xi, h, iters)
+        rk4 = RK4(f1, f2, y1i, y2i, xi, h, iters)
         rk4.solve()
         rk4.plotGraph()
     
