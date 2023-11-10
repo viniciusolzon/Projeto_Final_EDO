@@ -68,8 +68,8 @@ class Euler(Method):
             print(f"* y2{i+1} = {y2i:.4f}\n")
 
     def plotGraph(self):
-        plt.plot(self.xlist, self.y1list, 'r-', linewidth=2.0)
-        plt.plot(self.xlist, self.y2list, 'b-', linewidth=2.0)
+        plt.plot(self.xlist, self.y1list, 'r-', linewidth=2.0, marker='o', color ="red")
+        plt.plot(self.xlist, self.y2list, 'b-', linewidth=2.0, marker='o', color ="blue")
 
         plt.xlabel('x')
         plt.ylabel('y(x)')
@@ -77,7 +77,6 @@ class Euler(Method):
 
         plt.title('Euler')
         plt.show()
-
 
 class RK4(Method):
     def __init__(self, f1, f2, y10, y20, xi, h, iters):
@@ -125,8 +124,8 @@ class RK4(Method):
             self.set_y2i(y2i)
 
     def plotGraph(self):
-        plt.plot(self.xlist, self.y1list, 'r-', linewidth=2.0)
-        plt.plot(self.xlist, self.y2list, 'b-', linewidth=2.0)
+        plt.plot(self.xlist, self.y1list, 'r-', linewidth=2.0, color ="red", marker='o')
+        plt.plot(self.xlist, self.y2list, 'b-', linewidth=2.0, color = "blue", marker='o')
 
         plt.xlabel('x')
         plt.ylabel('y(x)')

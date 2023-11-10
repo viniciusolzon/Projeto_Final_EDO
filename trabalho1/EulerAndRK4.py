@@ -55,7 +55,7 @@ class Euler(Method):
             print(f"* y{i+1} = {yi:.4f}\n")
 
     def plotGraph(self):
-        plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0)
+        plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0, color = "red", marker = "o")
 
         plt.xlabel('x')
         plt.ylabel('y(x)')
@@ -63,7 +63,6 @@ class Euler(Method):
 
         plt.title('Euler')
         plt.show()
-
 
 class RK4(Method):
     def __init__(self, f, y0, xi, h, iters):
@@ -100,7 +99,7 @@ class RK4(Method):
             self.set_yi(yi)
 
     def plotGraph(self):
-        plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0)
+        plt.plot(self.xlist, self.ylist, 'r-', linewidth=2.0, color = "red", marker = "o")
 
         plt.xlabel('x')
         plt.ylabel('y(x)')
@@ -108,11 +107,6 @@ class RK4(Method):
 
         plt.title('RK4')
         plt.show()
-
-
-# def f(xi, yi):
-#     f = (2*yi)+1
-#     return f
 
 def verificaEscolha():
     choice = int(input("\nQual será o método de resolução da EDO?\n* Euler (1)\n* RK4 (2)\n-> "))
